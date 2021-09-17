@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" strict="true" name="XMLConfigTest"
+			   packages="com.my">
+
+	<Properties>
+		<Property name="basedir">logs</Property>
+		<Property name="filename">${basedir}/app.log</Property>
+		<Property name="rollingfilename">${basedir}/rollingapp.log</Property>
+		<Property name="def_pattern">%d [%-5p] %-10.20c [%t] %m %ex%n</Property>
+	</Properties>
+
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_ERR">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [%-5level] %logger{36} - %msg%n" />
+			<!--<PatternLayout pattern="%d{DEFAULT_MICROS} [%t] [%-5level] %logger{36} - %msg %xEx{short}%n" />-->
+			<!--<PatternLayout pattern="%highlight{%-5level}{FATAL=bg_red} %style{%date{yyyy-MM-dd HH:mm:ss.SSS}}{blue} %-20class{1.}:%L - %highlight{%msg} %xEx{short}%n" />-->
+		</Console>
+
+		<Appender type="RollingFile" name="RollingFile_INFO" fileName="${basedir}/loginfo/log.log"
+			  filePattern="${basedir}/loginfo/%d{yyyy-MM}/app-%d{yyyy-MM-dd}.%i.log">
+		<Layout type="PatternLayout">
+			<Pattern>%d [%-5p] %-10.20c %m %ex%n</Pattern>
+		</Layout>
+			<Filters>
+				<Filter type="MarkerFilter" marker="FLOW" onMatch="ACCEPT" onMismatch="DENY"/>
+			</Filters>
+		<Policies>
+			<SizeBasedTriggeringPolicy size="1024 KB" />
+			<TimeBasedTriggeringPolicy />
+		</Policies>
+		<DefaultRolloverStrategy max="10"/>
+	</Appender>
+
+		<Appender type="RollingFile" name="RollingFile_ERR" fileName="${basedir}/logerr/logerr.log"
+				  filePattern="${basedir}/logerr/%d{yyyy-MM}/app-%d{yyyy-MM-dd}.%i.log">
+			<Layout type="PatternLayout">
+				<Pattern>%d [%-5p] %-10.20c %m %ex%n</Pattern>
+			</Layout>
+			<Filters>
+				<Filter type="MarkerFilter" marker="FLOW" onMatch="DENY" onMismatch="ACCEPT"/>
+			</Filters>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="1024 KB" />
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+			<DefaultRolloverStrategy max="10"/>
+		</Appender>
+
+	</Appenders>
+	<Loggers>
+		<Root level="info">
+			<AppenderRef ref="Console" />
+		</Root>
+		<Logger name="com.my"  level="info">
+			<AppenderRef ref="RollingFile_INFO" />
+			<AppenderRef ref="RollingFile_ERR" />
+		</Logger>
+	</Loggers>
+</Configuration>
