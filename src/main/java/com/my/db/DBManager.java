@@ -16,8 +16,8 @@ import static com.my.constant.AppConstant.*;
 import static com.my.db.dbUtilit.DbUtilit.*;
 
 public class DBManager {
-    private DataSource ds;
-    private Worker sqlWorker;
+    private final DataSource ds;
+    private final Worker sqlWorker;
     private static DBManager dbManager;
     private static final Logger log = LogManager.getLogger(MySqlWorker.class);
 
@@ -33,20 +33,15 @@ public class DBManager {
             Context initContext = new InitialContext();
             Context envContext = (Context) initContext.lookup("java:/comp/env");
             ds = (DataSource) envContext.lookup("jdbc/MyNet");
+            sqlWorker = Worker.getInstance();
+            System.out.println(sqlWorker);
         } catch (NamingException ex) {
             throw new IllegalStateException("Cannot init DBManager", ex);
         }
     }
 
     public synchronized Connection getConnection() throws SQLException {
-        Connection localcon = ds.getConnection();
-        //System.out.println(localcon.getMetaData().getDriverName());
-        if (localcon.toString().toLowerCase().contains("mysql")){
-            sqlWorker = MySqlWorker.getInstance();
-        }
-        sqlWorker = MySqlWorker.getInstance();
-
-        return localcon;
+        return ds.getConnection();
     }
 
     public boolean insertUser(User user) throws DBException {

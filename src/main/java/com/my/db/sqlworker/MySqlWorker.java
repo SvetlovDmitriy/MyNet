@@ -15,18 +15,9 @@ import static com.my.db.dbUtilit.DbUtilit.*;
 import static com.my.constant.AppConstant.EXCEPTION;
 import static com.my.db.dbconstant.Constant.*;
 
-public class MySqlWorker implements Worker {
+public class MySqlWorker extends Worker {
     private static final Logger log = LogManager.getLogger(MySqlWorker.class);
-    private static MySqlWorker mySqlWorker;
 
-    private MySqlWorker(){}
-
-    public static synchronized MySqlWorker getInstance(){
-        if (mySqlWorker == null){
-            return mySqlWorker = new MySqlWorker();
-        }
-        return mySqlWorker;
-    }
     @Override
     public boolean insertUser(Connection con, User user){
         PreparedStatement pstmt = null;
@@ -51,6 +42,7 @@ public class MySqlWorker implements Worker {
         }
         return true;
     }
+
     @Override
     public User getUser(Connection con, String login) throws SQLException {
         PreparedStatement pstmt = null;
@@ -520,6 +512,7 @@ public class MySqlWorker implements Worker {
         return categoryL;
     }
 
+    @Override
     public void deleteCategory(Connection con, int id) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;

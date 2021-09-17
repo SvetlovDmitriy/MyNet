@@ -19,9 +19,7 @@ public class DaemonListener implements ServletContextListener {
     private volatile boolean active = true;
     private static final Logger log = LogManager.getLogger(MySqlWorker.class);
 
-
     Runnable myDeamon = new Runnable() {
-
         public void run() {
             while (active) {
 //                Date currentDate = new Date();
