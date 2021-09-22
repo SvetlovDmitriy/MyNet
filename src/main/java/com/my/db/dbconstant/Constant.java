@@ -35,6 +35,7 @@ public class Constant {
     public static final String SELECT_USER_BY_ID = "SELECT * FROM user WHERE id LIKE ?";
     public static final String SELECT_TIME_BY_SERVICEID = "SELECT * FROM timeT WHERE service_id LIKE ?";
     public static final String UPDATE_TIMET = "UPDATE timeT SET `time`=CURRENT_TIMESTAMP, total=0 WHERE id=?";
+    public static final String SELECT_SERVICE_BY_ID = "SELECT * FROM service WHERE id LIKE ?";
     public static final String ID = "id";
     public static final String LOGIN = "login";
     public static final String PASSWORD = "password";

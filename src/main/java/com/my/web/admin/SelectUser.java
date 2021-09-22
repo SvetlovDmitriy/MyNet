@@ -42,7 +42,6 @@ public class SelectUser extends HttpServlet {
                 session.setAttribute("userCash", Rounder.roundValue(user.getCash()));
                 serviceL = dbManager.getService(user);
                 session.setAttribute("serviceL", serviceL);
-                //Map<Category, ViewService> serviceMap = dbManager.getUserService(serviceL);
                 List<ViewService> serviceView = dbManager.getUserService(serviceL);
                 session.setAttribute("userService", serviceView);
                 resp.sendRedirect("adminUser.jsp");

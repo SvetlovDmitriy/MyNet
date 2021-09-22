@@ -44,7 +44,7 @@ public class MySqlWorker extends Worker {
     }
 
     @Override
-    public User getUser(Connection con, String login) throws SQLException {
+    public User selectUser(Connection con, String login) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         User user = null;
@@ -72,7 +72,7 @@ public class MySqlWorker extends Worker {
     }
 
     @Override
-    public User getUser(Connection con, int id) throws SQLException {
+    public User selectUser(Connection con, int id) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         User user = null;
@@ -178,6 +178,34 @@ public class MySqlWorker extends Worker {
             close(rs, pstmt);
         }
         return serviceL;
+    }
+
+    @Override
+    public Service selectService(Connection con, int id) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Service service = null;
+        try {
+            pstmt = con.prepareStatement(SELECT_SERVICE_BY_ID);
+            int k = 1;
+            pstmt.setInt(k++, id);
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+                service = new Service();
+                service.setId(rs.getInt(ID));
+                service.setUserId(rs.getInt(USER_ID));
+                service.setProductId(rs.getInt(PRODUCT_ID));
+                service.setCategoryId(rs.getInt(CATEGORY_ID));
+                service.setStatusId(rs.getInt(STATUS_ID));
+            }
+        } catch (SQLException ex) {
+            log.error(EXCEPTION, "Cant select Service in table Service method selectService()", ex);
+            throw new SQLException(ex);
+        }
+        finally {
+            close(rs, pstmt);
+        }
+        return service;
     }
 
     @Override
@@ -415,14 +443,14 @@ public class MySqlWorker extends Worker {
     }
 
     @Override
-    public TimeT getTimeT(Connection con, int id) throws SQLException {
+    public TimeT selectTimeT(Connection con, int serviceId) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         TimeT timeT = null;
         try {
             pstmt = con.prepareStatement(SELECT_TIME_BY_SERVICEID);
             int k = 1;
-            pstmt.setInt(k++, id);
+            pstmt.setInt(k++, serviceId);
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 timeT = new TimeT();

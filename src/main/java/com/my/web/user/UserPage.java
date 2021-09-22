@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import static com.my.constant.AppConstant.EXCEPTION;
 
@@ -34,12 +33,11 @@ public class UserPage extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         HttpSession session = req.getSession();
         List<Service> serviceL;
-        String loggin = (String)req.getSession().getAttribute("login");
-        System.out.println(loggin);
-        DBManager dbManager;
+        String login = (String)session.getAttribute("login");
+        System.out.println(login);
         try {
-            dbManager = DBManager.getDbManager();
-            User user = dbManager.getUser(loggin);
+            DBManager dbManager = DBManager.getDbManager();
+            User user = dbManager.getUser(login);
             session.setAttribute("user", user);
             session.setAttribute("userCash", Rounder.roundValue(user.getCash()));
             serviceL = dbManager.getService(user);

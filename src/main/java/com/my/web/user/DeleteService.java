@@ -2,6 +2,7 @@ package com.my.web.user;
 
 import com.my.db.DBException;
 import com.my.db.DBManager;
+import com.my.db.entity.User;
 import com.my.db.sqlworker.MySqlWorker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static com.my.constant.AppConstant.EXCEPTION;
@@ -28,11 +30,13 @@ public class DeleteService extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
+        HttpSession session = req.getSession();
+        User user = (User)session.getAttribute("user");
         int serviceId = Integer.parseInt(req.getParameter("serviceId"));
         String serviceName = req.getParameter("productName");
         try {
             DBManager dbManager = DBManager.getDbManager();
-            dbManager.deleteService(serviceId);
+            dbManager.deleteService(user, serviceId);
             log.info(FLOW, "User " + req.getSession().getAttribute("login") +
                     " delete service name = " + serviceName);
             resp.sendRedirect("userPage");

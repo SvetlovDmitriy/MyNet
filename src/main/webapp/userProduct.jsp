@@ -56,7 +56,7 @@
         <th scope="col">Service name</th>
         <th scope="col">Service description</th>
         <th scope="col">Service price</th>
-        <th scope="col">Delete sercice</th>
+        <th scope="col">Delete service</th>
     </tr>
     </thead>
     <c:forEach items="${sessionScope.productL}" var="products">

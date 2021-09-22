@@ -4,19 +4,19 @@ html, body{
 }
 table {
     margin-left: 30px;
-    width: 70%; /* Ширина таблицы */
-    border: 4px double black; /* Рамка вокруг таблицы */
-    border-collapse: collapse; /* Отображать только одинарные линии */
+    width: 70%;
+    border: 4px double black;
+    border-collapse: collapse;
 }
 th {
-    text-align: left; /* Выравнивание по левому краю */
-    background: #ccc; /* Цвет фона ячеек */
-    padding: 5px; /* Поля вокруг содержимого ячеек */
-    border: 1px solid black; /* Граница вокруг ячеек */
+    text-align: left;
+    background: #ccc;
+    padding: 5px;
+    border: 1px solid black;
 }
 td {
-    padding: 5px; /* Поля вокруг содержимого ячеек */
-    border: 1px solid black; /* Граница вокруг ячеек */
+    padding: 5px;
+    border: 1px solid black;
 }
 
 .header{
@@ -32,10 +32,7 @@ td {
     flex-direction: column;
     align-content: center;
     align-items: center;
-    margin-top: 10px;
-    margin-bottom: 0;
-    margin-left: 0;
-    margin-right: 0;
+    margin: 10px 0 0;
     justify-content: center;
 }
 .header-right{

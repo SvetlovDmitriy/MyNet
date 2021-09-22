@@ -27,8 +27,7 @@
     <input type="submit" value="${bSelect}" form="f1">
 </header>
 <div class="body-centre">
-    <h1><fmt:message key="${content}"/></h1>
-    ${mesShow}
+    <p><fmt:message key="${content}"/></p>
 </div>
 
 </body>

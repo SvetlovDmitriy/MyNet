@@ -1,50 +1,43 @@
-package com.my.web.user;
+package com.my.web.admin;
 
 import com.my.db.DBException;
 import com.my.db.DBManager;
-import com.my.db.entity.Service;
-import com.my.db.entity.User;
+import com.my.db.entity.Category;
+import com.my.db.entity.Product;
 import com.my.db.sqlworker.MySqlWorker;
+import com.my.utilit.CreateFile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import static com.my.constant.AppConstant.EXCEPTION;
-import static com.my.constant.AppConstant.FLOW;
 
-@WebServlet("/addService")
-public class AddService extends HttpServlet {
+@WebServlet("/createPriceList")
+public class CreaterPriceList extends HttpServlet {
     private static final Logger log = LogManager.getLogger(MySqlWorker.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int idp = Integer.parseInt(req.getParameter("idp"));
-        String namep = req.getParameter("namep");
-        User user =(User)req.getSession().getAttribute("user");
         try {
             DBManager dbManager = DBManager.getDbManager();
-            Service service = dbManager.addService(user.getId(), idp);
-            if (service.getId() > 0){
-                log.info(FLOW, user + " add servise " + namep);
-                resp.sendRedirect("userPage");
-            }
-
-        } catch (DBException ex) {
-            log.error(EXCEPTION, "can't add service in servlet addService", ex);
-            req.getSession().setAttribute("content", "addService");
+            Map<Category, List<Product>> priceList = dbManager.getPriceList();
+            String path = getServletContext().getRealPath("/Price list.txt");
+            CreateFile.createFile(priceList, path);
+            req.getSession().setAttribute("content", "priceListCompleted");
             resp.sendRedirect("blankPage.jsp");
+        } catch (DBException | IOException ex) {
+            log.error(EXCEPTION, "can't create price list in servlet createPriceList", ex);
+            req.getSession().setAttribute("content", "notCreatePriceList");
+            resp.sendRedirect("errorPage.jsp");
         } catch (IllegalStateException ex) {
+            log.error(EXCEPTION, "can't connect to db", ex);
             req.getSession().setAttribute("content", "messages.noconnection");
             resp.sendRedirect("errorPage.jsp");
         }

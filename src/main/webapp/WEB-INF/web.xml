@@ -5,6 +5,9 @@
          version="4.0">
   <display-name>Archetype Created Web Application</display-name>
   <listener>
+    <listener-class>com.my.web.listener.LogPathCreator</listener-class>
+  </listener>
+  <listener>
     <listener-class>com.my.web.listener.DaemonListener</listener-class>
   </listener>
   <listener>
@@ -19,8 +22,4 @@
       <page-encoding>UTF-8</page-encoding>
     </jsp-property-group>
   </jsp-config>
-  <context-param>
-    <param-name>isLog4jAutoInitializationDisabled</param-name>
-    <param-value>true</param-value>
-  </context-param>
 </web-app>

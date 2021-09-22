@@ -1,4 +1,4 @@
-package com.my.lang;
+package com.my.web.utilit;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +19,7 @@ public class Lan extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
+        System.out.println("Lang");
         HttpSession session = req.getSession();
         String lang = (String) session.getAttribute("lang");
         if (lang == null) {
@@ -31,7 +32,6 @@ public class Lan extends HttpServlet {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        System.out.println(referer);
         resp.sendRedirect(referer);
     }
 }

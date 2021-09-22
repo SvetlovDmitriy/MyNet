@@ -31,7 +31,7 @@
     </label>
     <input type="submit" value="${bSelect}" form="f1">
 </header>
-<h1>Exist cervice</h1><br><hr>
+<h1>Exist scervice</h1><br><hr>
 <table>
     <caption>Services</caption>
     <thead>

@@ -24,16 +24,11 @@ public class UpdateAdmUsr extends HttpServlet {
     private final Logger log = LogManager.getLogger(Login.class);
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         boolean isswitched = false;
         User user = (User) req.getSession().getAttribute("user");
-        String str = req.getParameter("serviceStatus");
+        String str;
         HttpSession session = req.getSession();
         if (req.getParameter("serviceStatus") == null){
             str = (String)req.getSession().getAttribute("serviceStatus");
@@ -48,21 +43,22 @@ public class UpdateAdmUsr extends HttpServlet {
         DBManager dbManager;
         try {
             List<Service> serviceL = (List<Service>) session.getAttribute("serviceL");
-            System.out.println(serviceL);
-            for(Service service : serviceL){
-                if ((service.getId() == serviceId) && (service.getStatusId() != status)){
-                    isswitched = true;
-                    break;
-                }
-            }
-            if (isswitched) {
+//            for(Service service : serviceL){
+//                if ((service.getId() == serviceId) && (service.getStatusId() != status)){
+//                    isswitched = true;
+//                    break;
+//                }
+//            }
+//            if (isswitched) {
+            if (user.getCash() > 0) {
                 dbManager = DBManager.getDbManager();
                 dbManager.updateStatus(serviceId, status);
                 log.info(FLOW, "" + user + " change state of service id " +
                         serviceId + " to " + status);
                 System.out.println(" is switched = " + isswitched);
             }
-            if (((String)(session.getAttribute("role"))).equals("admin")){
+//            }
+            if (((session.getAttribute("role"))).equals("admin")){
                 resp.sendRedirect("selectuser?login=" + user.getLogin());
             } else {
                 resp.sendRedirect("userPage?login=" + user.getLogin());

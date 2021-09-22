@@ -61,7 +61,6 @@
             <input type="submit" value="${execute}">
         </form>
     </div>
-
     <div class="leftCentre">
         <form name="updateProduct" action="updateProduct" method="post">
             ----Update service<br>

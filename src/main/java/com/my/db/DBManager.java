@@ -10,7 +10,9 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.my.constant.AppConstant.*;
 import static com.my.db.dbUtilit.DbUtilit.*;
@@ -34,8 +36,8 @@ public class DBManager {
             Context envContext = (Context) initContext.lookup("java:/comp/env");
             ds = (DataSource) envContext.lookup("jdbc/MyNet");
             sqlWorker = Worker.getInstance();
-            System.out.println(sqlWorker);
         } catch (NamingException ex) {
+            log.error(EXCEPTION, "Cannot init DBManager", ex);
             throw new IllegalStateException("Cannot init DBManager", ex);
         }
     }
@@ -103,7 +105,7 @@ public class DBManager {
         Connection con = null;
         try {
             con = getConnection();
-            user = sqlWorker.getUser(con, login);
+            user = sqlWorker.selectUser(con, login);
         } catch (SQLException ex) {
             log.error(EXCEPTION, "Cant connection to database", ex);
             throw new DBException(ex);
@@ -119,7 +121,7 @@ public class DBManager {
         Connection con = null;
         try {
             con = getConnection();
-            user = sqlWorker.getUser(con, id);
+            user = sqlWorker.selectUser(con, id);
         } catch (SQLException ex) {
             log.error(EXCEPTION, "Cant connection to database", ex);
             throw new DBException(ex);
@@ -341,10 +343,17 @@ public class DBManager {
         }
     }
 
-    public void deleteService(int serviceId) throws DBException {
+    public void deleteService(User user, int serviceId) throws DBException {
         Connection con = null;
         try {
             con = getConnection();
+//            TimeT timeT = sqlWorker.selectTimeT(con, serviceId);
+//            if (timeT.getTotal() > 0) {
+//                user = sqlWorker.selectUser(con, user.getId());
+//                Service service = sqlWorker.selectService(con, serviceId);
+//                Product product = sqlWorker.selectProduct(con, service.getProductId());
+//                user.setCash(user.getCash() - product.getPrice()/5 * timeT.getTotal());
+//            }
             sqlWorker.deleteService(con, serviceId);
             con.commit();
         } catch (SQLException ex) {
@@ -375,14 +384,17 @@ public class DBManager {
         return service;
     }
 
-    public void updateCash(User user) throws DBException {
+    public void updateCash(User user, List<Service> serviceL) throws DBException {
         Connection con = null;
         try {
             con = getConnection();
+            for (Service service : serviceL){
+                sqlWorker.updateStatus(con, service.getId(), service.getStatusId());
+            }
             sqlWorker.updateCash(con, user);
             con.commit();
         } catch (SQLException ex) {
-            log.error(EXCEPTION, "Cant update cash in metohd updateCash", ex);
+            log.error(EXCEPTION, "Cant update cash in method updateCash", ex);
             rollback(con);
             throw new DBException(ex);
         }
@@ -407,12 +419,12 @@ public class DBManager {
         return serviceL;
     }
 
-    public TimeT findTime(int id) throws DBException {
+    public TimeT findTime(int serviceId) throws DBException {
         TimeT timeT = null;
         Connection con = null;
         try {
             con = getConnection();
-            timeT = sqlWorker.getTimeT(con, id);
+            timeT = sqlWorker.selectTimeT(con, serviceId);
         } catch (SQLException ex) {
             log.error(EXCEPTION, "Cant find time in method findTime", ex);
             throw new DBException(ex);
@@ -423,12 +435,13 @@ public class DBManager {
         return timeT;
     }
 
-    public void updateCashTimeT(User user, TimeT timeT) throws DBException {
+    public void updateCashTimeT(User user, TimeT timeT, Service service) throws DBException {
         Connection con = null;
         try {
             con = getConnection();
             sqlWorker.updateCash(con, user);
             sqlWorker.updateTimeT(con, timeT);
+            sqlWorker.updateStatus(con, service.getId(), service.getStatusId());
             con.commit();
         } catch (SQLException ex) {
             log.error(EXCEPTION, "Cant update cash in metohd updateCashTimeT", ex);
@@ -438,6 +451,27 @@ public class DBManager {
         finally {
             close(con);
         }
+    }
+
+    public Map<Category, List<Product>> getPriceList() throws DBException {
+        List<Category> categoryL = new ArrayList<>();
+        Map<Category, List<Product>> priceList = new HashMap<>();
+        Connection con = null;
+        try {
+            con = getConnection();
+            categoryL = sqlWorker.selectAllCategory(con);
+            for(Category category : categoryL){
+                List<Product> productL = sqlWorker.selectAllProduct(con, category.getId());
+                priceList.put(category, productL);
+            }
+        } catch (SQLException ex) {
+            log.error(EXCEPTION, "Cant connection to database", ex);
+            throw new DBException(ex);
+        }
+        finally {
+            close(con);
+        }
+        return priceList;
     }
 }
 

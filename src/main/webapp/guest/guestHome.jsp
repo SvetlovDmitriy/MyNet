@@ -7,6 +7,7 @@
 <fmt:message key="button.select" var="bSelect"/>
 <fmt:message key="messages.usernotexist" var="mesShow"/>
 <fmt:message key="button.login" var="bLogin"/>
+<c:set var="app" value="${pageContext.servletContext.contextPath}" scope="application"/>
 
 <html>
 <head>
@@ -19,7 +20,7 @@
     <div class="header-left">
         <h1>MyNet</h1>
     </div>
-    <form class = "header-right" action="lang" method="post" id="f1"></form>
+    <form class = "header-right" action="../lang" method="get" id="f1"></form>
     <label>
         <select name="lang" form="f1">
             <option>${sessionScope.lang}</option>
@@ -29,7 +30,10 @@
     </label>
     <input type="submit" value="${bSelect}" form="f1">
 </header>
-    <p>Hi guest</p>
-
+<p>Hi guest</p>
+<form action="${app}/download">
+    Download price list
+    <input type="submit" value="${bSelect}">
+</form>
 </body>
 </html>

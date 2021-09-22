@@ -17,7 +17,7 @@ import java.util.*;
 
 public class DaemonListener implements ServletContextListener {
     private volatile boolean active = true;
-    private static final Logger log = LogManager.getLogger(MySqlWorker.class);
+    //private final Logger log = LogManager.getLogger(DaemonListener.class);
 
     Runnable myDeamon = new Runnable() {
         public void run() {
@@ -30,7 +30,7 @@ public class DaemonListener implements ServletContextListener {
                     System.out.println("Deamon run");
                     Thread.sleep(5000);
                 } catch (InterruptedException ex) {
-                    log.error(EXCEPTION, "thread is close in class DaemonListener");
+                    //log.error(EXCEPTION, "thread is close in class DaemonListener");
                 }
                 try {
                     DBManager dbManager = DBManager.getDbManager();
@@ -45,15 +45,17 @@ public class DaemonListener implements ServletContextListener {
                             Date date= new Date();
                             long time = date.getTime();
                             long total = (time - timeT.getTime().getTime())/1000 + timeT.getTotal();
-                            System.out.println("total time = " + total);
                             user.setCash(user.getCash() - product.getPrice()/5 * total);
                         }
-                        dbManager.updateCashTimeT(user, timeT);
+                        if (user.getCash() <= 0){
+                            service.setStatusId(2);
+                        }
+                        dbManager.updateCashTimeT(user, timeT, service);
                     }
                 } catch (IllegalStateException ex) {
-                    log.error(EXCEPTION, "can't connect to db", ex);
+                    //log.error(EXCEPTION, "can't connect to db", ex);
                 } catch (DBException ex) {
-                    log.error(EXCEPTION, "can't withdraw money", ex);
+                    //log.error(EXCEPTION, "can't withdraw money", ex);
                 }
             }
         }

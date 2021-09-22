@@ -44,6 +44,7 @@ public class DeleteProduct extends HttpServlet {
             req.getSession().setAttribute("content", "deleteProduct");
             req.getRequestDispatcher("blankPage.jsp").forward(req, resp);
         } catch (IllegalStateException ex) {
+            log.error(EXCEPTION, "can't connect to db", ex);
             req.getSession().setAttribute("content", "messages.noconnection");
             resp.sendRedirect("errorPage.jsp");
         }

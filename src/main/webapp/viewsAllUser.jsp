@@ -19,6 +19,9 @@
     <div class="header-left">
         <h1>My Net</h1>
     </div>
+    <div class="body-centre">
+        <a href="adminPage.jsp" class="topic">To Admin Page</a>
+    </div>
     <form class="header-right" action="lang" method="get" id="f1"></form>
     <label>
         <select name="lang" form="f1">

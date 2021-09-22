@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `mynetdb`.`product` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `price` DOUBLE UNSIGNED NOT NULL,
-  `description` VARCHAR(1024) NULL DEFAULT NULL,
+  `description` VARCHAR(1024) NULL DEFAULT "",
   `category_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
