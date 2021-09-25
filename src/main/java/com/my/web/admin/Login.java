@@ -20,14 +20,9 @@ import java.util.IllformedLocaleException;
 
 import static com.my.constant.AppConstant.*;
 
-@WebServlet("/login")
+//@WebServlet("/login")
 public class Login extends HttpServlet {
     private final Logger log = LogManager.getLogger(Login.class);
-
-//    @Override
-//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        doPost(req, resp);
-//    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,9 +30,6 @@ public class Login extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         HttpSession session = req.getSession();
-        System.out.println("before login " + req.getSession().getAttribute("role"));
-        System.out.println(req.getSession());
-
         session.setAttribute("role", "guest");
         try {
             DBManager dbManager = DBManager.getDbManager();
@@ -48,8 +40,7 @@ public class Login extends HttpServlet {
                 {
                     session.setAttribute("role", "admin");
                     resp.sendRedirect("adminPage.jsp");
-                } else if (user.getRole() == 2)
-                {
+                } else if (user.getRole() == 2) {
                     session.setAttribute("role", "user");
                     session.setAttribute("login", login);
                     resp.sendRedirect("userPage");
@@ -57,12 +48,12 @@ public class Login extends HttpServlet {
             } else {
                 resp.sendRedirect("guest/guestHome.jsp");
             }
-            System.out.println("after login " + req.getSession().getAttribute("role"));
         } catch (DBException  ex) {
             log.error(EXCEPTION, "cannot connect to db");
             req.getSession().setAttribute("content", "messages.noconnection");
             resp.sendRedirect("errorPage.jsp");
         } catch (IllegalStateException ex){
+            log.error(EXCEPTION, "can't connect to db", ex);
             req.getSession().setAttribute("content", "messages.noconnection");
             resp.sendRedirect("errorPage.jsp");
         }

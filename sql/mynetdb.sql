@@ -147,23 +147,23 @@ CREATE TABLE `timeT` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- -----------------------------------------------------
--- Trigger `mynetdb`.`timeT`
+-- Trigger `mynetdb`.`service`
 -- -----------------------------------------------------
 
 DELIMITER $$
 CREATE
-	TRIGGER `service_after_update` AFTER UPDATE 
+	TRIGGER `service_after_update_status` AFTER UPDATE 
 	ON `service`
 	FOR EACH ROW BEGIN
     
 		SET @timeNew=CURRENT_TIMESTAMP;
-        
+	
        IF OLD.status_id != NEW.status_id THEN
 		IF NEW.status_id=1 THEN
             UPDATE timeT SET timeT.`time` = @timeNew WHERE timeT.service_id=NEW.id;
 		ELSE
 			SET @totalOld=(SELECT total FROM timeT WHERE `timeT`.service_id=NEW.id);
-			SET @totalDif=TIMESTAMPDIFF(SECOND, (SELECT `time` FROM timeT WHERE `timeT`.service_id LIKE 1), CURRENT_TIMESTAMP);
+			SET @totalDif=TIMESTAMPDIFF(SECOND, (SELECT `time` FROM timeT WHERE `timeT`.service_id LIKE NEW.id), CURRENT_TIMESTAMP);
 			UPDATE timeT SET `time`= @timeNew, total=@totalOld+@totalDif WHERE timeT.service_id=NEW.id;
 		END IF;
         END IF;
@@ -178,7 +178,29 @@ CREATE
 		INSERT INTO `timeT` (service_id, `time`) VALUES (NEW.id, CURRENT_TIMESTAMP);
 		
     END$$
+    
+CREATE
+	TRIGGER `user_before_apdate_cash` BEFORE UPDATE
+    ON `user` 
+    FOR EACH ROW BEGIN
+		IF NEW.cash <= 0 THEN
+			UPDATE service SET service.status_id=2 WHERE service.user_id=NEW.id;
+		END IF;
+        
+        IF NEW.cash > 0 AND OLD.cash <= 0 THEN
+			UPDATE service SET service.status_id=1 WHERE service.user_id=NEW.id;
+		END IF;
+   
+END$$
+    
 DELIMITER ;
+
+
+
+
+
+
+
 
 INSERT INTO role (id, name) VALUES(DEFAULT, "admin");
 INSERT INTO role (id, name) VALUES(DEFAULT, "customer");

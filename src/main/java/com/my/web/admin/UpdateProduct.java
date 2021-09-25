@@ -46,6 +46,7 @@ public class UpdateProduct extends HttpServlet {
             req.getSession().setAttribute("content", "system.err");
             resp.sendRedirect("errorPage.jsp");
         } catch (IllegalStateException ex) {
+            log.error(EXCEPTION, "can't connect to db", ex);
             req.getSession().setAttribute("content", "messages.noconnection");
             resp.sendRedirect("errorPage.jsp");
         }

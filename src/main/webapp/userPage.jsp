@@ -41,7 +41,7 @@
     </div>
 
     <div class="leftCentre">
-        <form name="allProduct" action="addMoney" method="get">
+        <form name="allProduct" action="addMoney" method="post">
              Put monet<br>
             <label>
                 <input type="number" name="cash" step="any" min="0" required>

@@ -26,7 +26,6 @@ public class UpdateAdmUsr extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        boolean isswitched = false;
         User user = (User) req.getSession().getAttribute("user");
         String str;
         HttpSession session = req.getSession();
@@ -36,28 +35,16 @@ public class UpdateAdmUsr extends HttpServlet {
             str = req.getParameter("serviceStatus");
             req.getSession().setAttribute("serviceStatus", str);
         }
-        System.out.println(str);
         String[] strA = str.split("\\s");
         int status = Integer.parseInt(strA[0]);
         int serviceId = Integer.parseInt(strA[1]);
-        DBManager dbManager;
         try {
-            List<Service> serviceL = (List<Service>) session.getAttribute("serviceL");
-//            for(Service service : serviceL){
-//                if ((service.getId() == serviceId) && (service.getStatusId() != status)){
-//                    isswitched = true;
-//                    break;
-//                }
-//            }
-//            if (isswitched) {
             if (user.getCash() > 0) {
-                dbManager = DBManager.getDbManager();
+                DBManager dbManager = DBManager.getDbManager();
                 dbManager.updateStatus(serviceId, status);
                 log.info(FLOW, "" + user + " change state of service id " +
                         serviceId + " to " + status);
-                System.out.println(" is switched = " + isswitched);
             }
-//            }
             if (((session.getAttribute("role"))).equals("admin")){
                 resp.sendRedirect("selectuser?login=" + user.getLogin());
             } else {
@@ -68,6 +55,7 @@ public class UpdateAdmUsr extends HttpServlet {
             req.getSession().setAttribute("content", "system.err");
             resp.sendRedirect("errorPage.jsp");
         } catch (IllegalStateException ex) {
+            log.error(EXCEPTION, "can't connect to db", ex);
             req.getSession().setAttribute("content", "messages.noconnection");
             resp.sendRedirect("errorPage.jsp");
         }

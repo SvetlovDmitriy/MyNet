@@ -29,8 +29,8 @@ public class AddProduct extends HttpServlet {
         product.setName(req.getParameter("name"));
         product.setDescription(req.getParameter("des"));
         product.setCategoryId((Integer)(req.getSession().getAttribute("categoryId")));
+        product.setPrice(Double.parseDouble(req.getParameter("price")));
         try {
-            product.setPrice(Double.parseDouble(req.getParameter("price")));
             DBManager dbManager = DBManager.getDbManager();
             dbManager.addProduct(product);
             log.info(FLOW, "service " + " add to db");
@@ -40,6 +40,7 @@ public class AddProduct extends HttpServlet {
             req.getSession().setAttribute("content", "cantAddProduct");
             resp.sendRedirect("errorPage.jsp");
         } catch (IllegalStateException ex){
+            log.error(EXCEPTION, "can't connect to db", ex);
             req.getSession().setAttribute("content", "messages.noconnection");
             resp.sendRedirect("errorPage.jsp");
         }

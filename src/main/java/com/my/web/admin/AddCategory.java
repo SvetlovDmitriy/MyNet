@@ -32,12 +32,7 @@ public class AddCategory extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String categoryName;
         HttpSession session = req.getSession();
-        if (req.getParameter("categoryName") == null){
-            categoryName = (String) session.getAttribute("categoryName");
-        } else {
-            categoryName = req.getParameter("categoryName");
-            session.setAttribute("categoryName", categoryName);
-        }
+        categoryName = req.getParameter("categoryName");
         try {
             DBManager dbManager = DBManager.getDbManager();
             Category category = dbManager.addCategory(categoryName);
@@ -48,6 +43,7 @@ public class AddCategory extends HttpServlet {
             resp.sendRedirect("errorPage.jsp");
         }
         catch (IllegalStateException ex){
+            log.error(EXCEPTION, "can't connect to db", ex);
             req.getSession().setAttribute("content", "messages.noconnection");
             resp.sendRedirect("errorPage.jsp");
         }

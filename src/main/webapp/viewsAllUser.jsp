@@ -17,7 +17,7 @@
 <body>
 <header class="header">
     <div class="header-left">
-        <h1>My Net</h1>
+        <h1>MyNet</h1>
     </div>
     <div class="body-centre">
         <a href="adminPage.jsp" class="topic">To Admin Page</a>

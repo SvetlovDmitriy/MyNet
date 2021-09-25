@@ -30,9 +30,8 @@ public class SelectUser extends HttpServlet {
         List<Service> serviceL;
         String loggin = req.getParameter("login");
         System.out.println(loggin);
-        DBManager dbManager;
         try {
-            dbManager = DBManager.getDbManager();
+            DBManager dbManager = DBManager.getDbManager();
             User user = dbManager.getUser(loggin);
             if (user == null){
                 session.setAttribute("content", "userNotSelected");
@@ -41,7 +40,7 @@ public class SelectUser extends HttpServlet {
                 session.setAttribute("user", user);
                 session.setAttribute("userCash", Rounder.roundValue(user.getCash()));
                 serviceL = dbManager.getService(user);
-                session.setAttribute("serviceL", serviceL);
+                //session.setAttribute("serviceL", serviceL);
                 List<ViewService> serviceView = dbManager.getUserService(serviceL);
                 session.setAttribute("userService", serviceView);
                 resp.sendRedirect("adminUser.jsp");
@@ -51,6 +50,7 @@ public class SelectUser extends HttpServlet {
             session.setAttribute("content", "system.err");
             resp.sendRedirect("errorPage.jsp");
         } catch (IllegalStateException ex) {
+            log.error(EXCEPTION, "can't connect to db", ex);
             session.setAttribute("content", "messages.noconnection");
             resp.sendRedirect("errorPage.jsp");
         }

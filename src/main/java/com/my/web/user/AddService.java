@@ -36,7 +36,7 @@ public class AddService extends HttpServlet {
             DBManager dbManager = DBManager.getDbManager();
             Service service = dbManager.addService(user.getId(), idp);
             if (service.getId() > 0){
-                log.info(FLOW, user + " add servise " + namep);
+                log.info(FLOW, user + " add service " + namep);
                 resp.sendRedirect("userPage");
             }
 
@@ -45,6 +45,7 @@ public class AddService extends HttpServlet {
             req.getSession().setAttribute("content", "addService");
             resp.sendRedirect("blankPage.jsp");
         } catch (IllegalStateException ex) {
+            log.error(EXCEPTION, "can't connect to db", ex);
             req.getSession().setAttribute("content", "messages.noconnection");
             resp.sendRedirect("errorPage.jsp");
         }

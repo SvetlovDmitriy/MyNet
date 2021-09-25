@@ -27,31 +27,13 @@ public class DaemonListener implements ServletContextListener {
 //                String timeText = timeFormat.format(currentDate);
 //                System.out.println(timeText);
                 try {
-                    System.out.println("Deamon run");
                     Thread.sleep(5000);
                 } catch (InterruptedException ex) {
                     //log.error(EXCEPTION, "thread is close in class DaemonListener");
                 }
                 try {
                     DBManager dbManager = DBManager.getDbManager();
-                    List<Service> serviceL= dbManager.findAllService();
-                    for(Service service : serviceL){
-                        Product product = dbManager.getProduct(service.getProductId());
-                        User user = dbManager.getUser(service.getUserId());
-                        TimeT timeT = dbManager.findTime(service.getId());
-                        if (service.getStatusId() == 2){
-                            user.setCash(user.getCash() - product.getPrice()/5 * timeT.getTotal());
-                        } else {
-                            Date date= new Date();
-                            long time = date.getTime();
-                            long total = (time - timeT.getTime().getTime())/1000 + timeT.getTotal();
-                            user.setCash(user.getCash() - product.getPrice()/5 * total);
-                        }
-                        if (user.getCash() <= 0){
-                            service.setStatusId(2);
-                        }
-                        dbManager.updateCashTimeT(user, timeT, service);
-                    }
+                    dbManager.withdrawMoney();
                 } catch (IllegalStateException ex) {
                     //log.error(EXCEPTION, "can't connect to db", ex);
                 } catch (DBException ex) {

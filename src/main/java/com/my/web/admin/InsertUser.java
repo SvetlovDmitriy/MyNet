@@ -23,17 +23,13 @@ public class InsertUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        DBManager dbManager;
         String login = req.getParameter("login");
-        System.out.println(login);
         User user = new User();
         user.setLogin(login);
         user.setPassword(login);
-        req.getSession().setAttribute("content", "dontInsertUser");
         try {
-            dbManager = DBManager.getDbManager();
+            DBManager dbManager = DBManager.getDbManager();
             if (dbManager.insertUser(user)){
-                Logger log = LogManager.getLogger(InsertUser.class);
                 log.info(FLOW, "User " + login + " add to " + MY_NET);
                 req.getSession().setAttribute("content", "insertUser");
                 resp.sendRedirect("blankPage.jsp");
@@ -47,6 +43,7 @@ public class InsertUser extends HttpServlet {
             req.getRequestDispatcher("errorPage.jsp").forward(req, resp);
         }
         catch (IllegalStateException ex) {
+            log.error(EXCEPTION, "can't connect to db", ex);
             req.getSession().setAttribute("content", "messages.noconnection");
             resp.sendRedirect("errorPage.jsp");
         }

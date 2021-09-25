@@ -1,31 +1,51 @@
 package com.my.web.filter;
 
 import java.io.IOException;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter( urlPatterns = { "*.mmm" },
-        initParams = { @WebInitParam(name = "INDEX_PATH", value = "/W.html") })
 public class PageRedirectSecurityFilter implements Filter {
-    private String indexPath;
-    public void init(FilterConfig fConfig) throws ServletException {
-        indexPath = fConfig.getInitParameter("INDEX_PATH");
-    }
+    private final String startPath = "/start.jsp";
+    private final String cssPath = "/css/style.css";
+    private final String errorPage = "/errorPage.jsp";
+    private final String blankPage = "/blankPage.gsp";
+    private final String adminNotAccess = "/userPage /deleteService /addService /addMoney userPage.jsp " +
+            "/userCategory.jsp" + "/userPage.jsp /userProduct.jsp";
+    private final String userNotAcces = "/addCategory /addProduct /deleteCategory /deleteProduct /findAllUser " +
+            "/updateProduct /insertuser /adminCategory.jsp /adminPage.jsp /adminProduct.jsp /showExistUser.jsp";
+    private final String guestAccess = "/guest/guestHome.jsp /download /errorPage.jsp /blankPage.jsp";
+
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        httpResponse.sendRedirect(httpRequest.getContextPath() + indexPath);
+        String role = (String) httpRequest.getSession().getAttribute("role");
+        String contextPath = httpRequest.getContextPath();
+        String uri = httpRequest.getRequestURI();
+        String nameServlet = httpRequest.getServletPath();
+        if (!isStartPage(contextPath, uri)) {
+            if ("admin".equals(role) && (adminNotAccess.contains(nameServlet))){
+                httpResponse.sendRedirect(contextPath + startPath);
+                return;
+            } else if ("user".equals(role) && (userNotAcces.contains(nameServlet))){
+                httpResponse.sendRedirect(contextPath + startPath);
+                return;
+            } else if ("guest".equals(role) && (!guestAccess.contains(nameServlet))){
+                httpResponse.sendRedirect(contextPath + startPath);
+                return;
+            }
+        }
         chain.doFilter(request, response);
     }
-    public void destroy() {
+
+    /**
+     *  return true when the request URI belongs start.jsp or style.jsp or errorPage.jsp or blankPaje.jsp
+     */
+    private boolean isStartPage(String contextPath, String uri){
+        return (uri.equals(contextPath + "/")) || (uri.equals(contextPath + startPath)) ||
+                (uri.equals(contextPath + cssPath) || (uri.equals(contextPath + blankPage)) ||
+                uri.equals(contextPath + errorPage));
     }
+
 }

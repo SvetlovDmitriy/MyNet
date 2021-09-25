@@ -26,11 +26,9 @@ public class DeleteCategory extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
-        List<Product> productL;
         try {
             DBManager dbManager = DBManager.getDbManager();
-            productL = dbManager.findAllProduct(id);
-            System.out.println("productL = " + productL);
+            List<Product> productL = dbManager.findAllProduct(id);
             if (productL.isEmpty()){
                 dbManager.deleteCategory(id);
                 log.info(FLOW, "Category " + name + " delete");
@@ -44,6 +42,7 @@ public class DeleteCategory extends HttpServlet {
             req.setAttribute("content", "deleteProduct");
             resp.sendRedirect("blankPage.jsp");
         } catch (IllegalStateException ex) {
+            log.error(EXCEPTION, "can't connect to db", ex);
             req.setAttribute("content", "messages.noconnection");
             req.getRequestDispatcher("errorPage.jsp").forward(req, resp);
         }

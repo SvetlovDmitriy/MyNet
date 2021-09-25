@@ -26,21 +26,15 @@ public class FindAllProduct extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         int categoryId;
-        String categoryName;
         HttpSession session = req.getSession();
-        DBManager dbManager;
         if (req.getParameter("categoryId") != null) {
             categoryId = Integer.parseInt(req.getParameter("categoryId"));
             session.setAttribute("categoryId", categoryId);
         } else {
             categoryId = (Integer) (session.getAttribute("categoryId"));
         }
-        if (req.getParameter("categoryName") != null){
-            categoryName = req.getParameter("categoryName");
-            session.setAttribute("categoryName", categoryName);
-        }
         try {
-            dbManager = DBManager.getDbManager();
+            DBManager dbManager = DBManager.getDbManager();
             List<Product> productL = dbManager.findAllProduct(categoryId);
             req.getSession().setAttribute("productL", productL);
             System.out.println(productL);
@@ -52,9 +46,11 @@ public class FindAllProduct extends HttpServlet {
             }
         } catch (DBException ex) {
             log.error(EXCEPTION, "can't find product servlet findAllProduct", ex);
+            req.getSession().setAttribute("content", "system.err");
             resp.sendRedirect("errorPage.jsp");
         }
         catch (IllegalStateException ex){
+            log.error(EXCEPTION, "can't init Db", ex);
             req.getSession().setAttribute("content", "messages.noconnection");
             resp.sendRedirect("errorPage.jsp");
         }

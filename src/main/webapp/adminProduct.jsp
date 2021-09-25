@@ -107,5 +107,6 @@
         </tr>
     </c:forEach>
 </table>
+<a href="adminCategory.jsp">back</a>
 </body>
 </html>

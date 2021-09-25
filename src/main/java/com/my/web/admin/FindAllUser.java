@@ -25,23 +25,21 @@ public class FindAllUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        DBManager dbManager;
         try {
-            dbManager = DBManager.getDbManager();
+            DBManager dbManager = DBManager.getDbManager();
             List<User> userL = dbManager.findAllUser();
-            System.out.println(userL);
             HttpSession session = req.getSession();
             session.setAttribute("userL", userL);
             resp.sendRedirect("viewsAllUser.jsp");
         } catch (DBException ex) {
+            log.error(EXCEPTION, "can't find user. Servlet findAllProduct", ex);
             req.getSession().setAttribute("content", "system.err");
             resp.sendRedirect("errorPage.jsp");
-            log.error(EXCEPTION, "can't find user. Servlet findAllProduct", ex);
         }
         catch (IllegalStateException ex) {
+            log.error(EXCEPTION, "can't connect to db", ex);
             req.getSession().setAttribute("content", "messages.noconnection");
             resp.sendRedirect("errorPage.jsp");
         }
     }
-
 }

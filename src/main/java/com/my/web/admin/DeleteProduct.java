@@ -27,10 +27,9 @@ public class DeleteProduct extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         int productId = Integer.parseInt(req.getParameter("idp"));
         String productName = req.getParameter("namep");
-        List<User> userL;
         try {
             DBManager dbManager = DBManager.getDbManager();
-            userL = dbManager.findAllUser(productId);
+            List<User> userL = dbManager.findAllUser(productId);
             if (userL.isEmpty()){
                 dbManager.deleteProduct(productId);
                 log.info(FLOW, "delete product name = " + productName);

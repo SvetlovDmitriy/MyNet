@@ -23,10 +23,10 @@ import static com.my.constant.AppConstant.EXCEPTION;
 public class UserPage extends HttpServlet {
     private final Logger log = LogManager.getLogger(Login.class);
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);
-    }
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        doGet(req, resp);
+//    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -50,6 +50,7 @@ public class UserPage extends HttpServlet {
             session.setAttribute("content", "system.err");
             resp.sendRedirect("errorPage.jsp");
         } catch (IllegalStateException ex) {
+            log.error(EXCEPTION, "can't init Db", ex);
             session.setAttribute("content", "messages.noconnection");
             resp.sendRedirect("errorPage.jsp");
         }

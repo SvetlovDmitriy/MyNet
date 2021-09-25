@@ -2,6 +2,7 @@ package com.my.db;
 
 import com.my.db.entity.*;
 import com.my.db.sqlworker.MySqlWorker;
+import com.my.web.utilit.CalculationOfPayments;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.naming.Context;
@@ -347,13 +348,12 @@ public class DBManager {
         Connection con = null;
         try {
             con = getConnection();
-//            TimeT timeT = sqlWorker.selectTimeT(con, serviceId);
-//            if (timeT.getTotal() > 0) {
-//                user = sqlWorker.selectUser(con, user.getId());
-//                Service service = sqlWorker.selectService(con, serviceId);
-//                Product product = sqlWorker.selectProduct(con, service.getProductId());
-//                user.setCash(user.getCash() - product.getPrice()/5 * timeT.getTotal());
-//            }
+            TimeT timeT = sqlWorker.selectTimeT(con, serviceId);
+            user = sqlWorker.selectUser(con, user.getId());
+            Service service = sqlWorker.selectService(con, serviceId);
+            Product product = sqlWorker.selectProduct(con, service.getProductId());
+            CalculationOfPayments.getPayment(user, product, service, timeT);
+            sqlWorker.updateCash(con, user);
             sqlWorker.deleteService(con, serviceId);
             con.commit();
         } catch (SQLException ex) {
@@ -384,13 +384,10 @@ public class DBManager {
         return service;
     }
 
-    public void updateCash(User user, List<Service> serviceL) throws DBException {
+    public void updateCash(User user) throws DBException {
         Connection con = null;
         try {
             con = getConnection();
-            for (Service service : serviceL){
-                sqlWorker.updateStatus(con, service.getId(), service.getStatusId());
-            }
             sqlWorker.updateCash(con, user);
             con.commit();
         } catch (SQLException ex) {
@@ -435,16 +432,14 @@ public class DBManager {
         return timeT;
     }
 
-    public void updateCashTimeT(User user, TimeT timeT, Service service) throws DBException {
+    public void updateTimeT(TimeT timeT) throws DBException {
         Connection con = null;
         try {
             con = getConnection();
-            sqlWorker.updateCash(con, user);
             sqlWorker.updateTimeT(con, timeT);
-            sqlWorker.updateStatus(con, service.getId(), service.getStatusId());
             con.commit();
         } catch (SQLException ex) {
-            log.error(EXCEPTION, "Cant update cash in metohd updateCashTimeT", ex);
+            log.error(EXCEPTION, "Cant update cash in method updateTimeT", ex);
             rollback(con);
             throw new DBException(ex);
         }
@@ -465,13 +460,38 @@ public class DBManager {
                 priceList.put(category, productL);
             }
         } catch (SQLException ex) {
-            log.error(EXCEPTION, "Cant connection to database", ex);
+            log.error(EXCEPTION, "Cant connection to database in method getPriceList", ex);
             throw new DBException(ex);
         }
         finally {
             close(con);
         }
         return priceList;
+    }
+
+    public void withdrawMoney() throws DBException {
+        Connection con = null;
+        try {
+            con = getConnection();
+            List<User> userL = sqlWorker.selectAllUser(con);
+            for (User user : userL) {
+                List<Service> serviceL = sqlWorker.selectService(con, user);
+                for (Service service : serviceL) {
+                    Product product = sqlWorker.selectProduct(con, service.getProductId());
+                    TimeT timeT = sqlWorker.selectTimeT(con, service.getId());
+                    CalculationOfPayments.getPayment(user, product, service, timeT);
+                    sqlWorker.updateCash(con, user);
+                    sqlWorker.updateTimeT(con, timeT);
+                }
+            }
+            con.commit();
+        } catch (SQLException ex) {
+            rollback(con);
+            log.error(EXCEPTION, "Cant do method withdrawMoney", ex);
+            throw new DBException(ex);
+        } finally {
+            close(con);
+        }
     }
 }
 

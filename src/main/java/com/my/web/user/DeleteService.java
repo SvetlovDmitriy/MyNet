@@ -37,7 +37,7 @@ public class DeleteService extends HttpServlet {
         try {
             DBManager dbManager = DBManager.getDbManager();
             dbManager.deleteService(user, serviceId);
-            log.info(FLOW, "User " + req.getSession().getAttribute("login") +
+            log.info(FLOW, "User " + user +
                     " delete service name = " + serviceName);
             resp.sendRedirect("userPage");
         } catch (DBException ex) {

@@ -25,27 +25,13 @@ public class AddMoney extends HttpServlet {
     private static final Logger log = LogManager.getLogger(MySqlWorker.class);
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
-        double oldCash = user.getCash();
-        List<Service> serviceL = (List<Service>) session.getAttribute("serviceL");
         user.setCash(user.getCash() + Double.parseDouble(req.getParameter("cash")));
-        if ((user.getCash() > 0) && (oldCash < 0)){
-            for (Service service : serviceL){
-                service.setStatusId(1);
-            }
-        }
         try {
             DBManager dbManager = DBManager.getDbManager();
-            dbManager.updateCash(user, serviceL);
-            session.setAttribute("user", user);
-            session.setAttribute("serviceL", serviceL);
+            dbManager.updateCash(user);
             log.info(FLOW, user + " add cash");
             resp.sendRedirect("userPage");
         } catch (DBException ex) {
