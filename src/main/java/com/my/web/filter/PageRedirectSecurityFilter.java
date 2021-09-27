@@ -14,7 +14,7 @@ public class PageRedirectSecurityFilter implements Filter {
             "/userCategory.jsp" + "/userPage.jsp /userProduct.jsp";
     private final String userNotAcces = "/addCategory /addProduct /deleteCategory /deleteProduct /findAllUser " +
             "/updateProduct /insertuser /adminCategory.jsp /adminPage.jsp /adminProduct.jsp /showExistUser.jsp";
-    private final String guestAccess = "/guest/guestHome.jsp /download /errorPage.jsp /blankPage.jsp";
+    private final String guestAccess = "/guest/guestHome.jsp /download /errorPage.jsp /blankPage.jsp /login";
 
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {

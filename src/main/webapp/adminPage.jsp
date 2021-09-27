@@ -35,7 +35,7 @@
 <hr>
 <div class="body-centre">
 
-    <form name="allUser" action="findAllUser" method="get">
+    <form name="allUser" action="findAllUserLimit" method="get">
         ----Find all User<br>
         <input type="submit" value="${showAllUser}">
     </form>

@@ -22,7 +22,7 @@ public class DBManager {
     private final DataSource ds;
     private final Worker sqlWorker;
     private static DBManager dbManager;
-    private static final Logger log = LogManager.getLogger(MySqlWorker.class);
+    private static final Logger log = LogManager.getLogger(DBManager.class);
 
     public static synchronized DBManager getDbManager() {
         if (dbManager == null) {
@@ -56,8 +56,7 @@ public class DBManager {
             con.commit();
         } catch (SQLException ex) {
             rollback(con);
-            log.error(EXCEPTION, "Cant connection to database", ex);
-            rollback(con);
+            log.error(EXCEPTION, "Cant do method insertUser", ex);
             throw new DBException(ex);
         }
         finally {
@@ -76,13 +75,45 @@ public class DBManager {
             con = getConnection();
             userL = sqlWorker.selectAllUser(con);
         } catch (SQLException ex) {
-            log.error(EXCEPTION, "Cant connection to database", ex);
+            log.error(EXCEPTION, "Cant do method findAllUser", ex);
             throw new DBException(ex);
         }
         finally {
             close(con);
         }
         return userL;
+    }
+
+    public List<User> findAllUserLimit(int offset, int limit) throws DBException {
+        List<User> userL = new ArrayList<>();
+        Connection con = null;
+        try {
+            con = getConnection();
+            userL = sqlWorker.selectAllUserLimit(con, offset, limit);
+        } catch (SQLException ex) {
+            log.error(EXCEPTION, "Cant do method findAllUserLimit", ex);
+            throw new DBException(ex);
+        }
+        finally {
+            close(con);
+        }
+        return userL;
+    }
+
+    public int getTotalUser() throws DBException {
+        Connection con = null;
+        int totalU = 0;
+        try {
+            con = getConnection();
+            totalU = sqlWorker.selectAllUserCount(con);
+        } catch (SQLException ex) {
+            log.error(EXCEPTION, "Cantdo method getTotalUser", ex);
+            throw new DBException(ex);
+        }
+        finally {
+            close(con);
+        }
+        return totalU;
     }
 
     public List<User> findAllUser(int productId) throws DBException {
@@ -92,7 +123,7 @@ public class DBManager {
             con = getConnection();
             userL = sqlWorker.selectAllUser(con, productId);
         } catch (SQLException ex) {
-            log.error(EXCEPTION, "Cant connection to database", ex);
+            log.error(EXCEPTION, "Cantdo method findAllUse", ex);
             throw new DBException(ex);
         }
         finally {
@@ -108,7 +139,7 @@ public class DBManager {
             con = getConnection();
             user = sqlWorker.selectUser(con, login);
         } catch (SQLException ex) {
-            log.error(EXCEPTION, "Cant connection to database", ex);
+            log.error(EXCEPTION, "Cant do method getUser(String login)", ex);
             throw new DBException(ex);
         }
         finally {
@@ -124,7 +155,7 @@ public class DBManager {
             con = getConnection();
             user = sqlWorker.selectUser(con, id);
         } catch (SQLException ex) {
-            log.error(EXCEPTION, "Cant connection to database", ex);
+            log.error(EXCEPTION, "Cant do method getUser", ex);
             throw new DBException(ex);
         }
         finally {

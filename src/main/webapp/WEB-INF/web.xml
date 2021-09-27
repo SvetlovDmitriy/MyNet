@@ -38,4 +38,16 @@
     <servlet-name>login</servlet-name>
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>FindAllUser</servlet-name>
+    <servlet-class>com.my.web.admin.FindAllUserLimit</servlet-class>
+    <init-param>
+      <param-name>recordsPerPage</param-name>
+      <param-value>2</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FindAllUser</servlet-name>
+    <url-pattern>/findAllUserLimit</url-pattern>
+  </servlet-mapping>
 </web-app>

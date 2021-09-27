@@ -1,0 +1,19 @@
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        version="2.1">
+    <tlib-version> 1.0 </tlib-version>
+    <short-name> mytag </short-name>
+    <uri> /WEB-INF/taglib/mytaglib.tld </uri>
+
+    <tag>
+        <name> viewUser </name>
+        <tag-class> com.my.web.jstl.MyTag </tag-class>
+        <body-content> JSP </body-content>
+        <attribute>
+            <name> userL </name>
+            <required> true </required>
+            <rtexprvalue> true </rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>

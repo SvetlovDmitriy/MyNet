@@ -7,11 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema mynetdb
 -- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema mynetdb
--- -----------------------------------------------------
--- DROP SCHEMA IF EXISTS `mynetdb`;
+DROP SCHEMA IF EXISTS `mynetdb`;
 CREATE SCHEMA IF NOT EXISTS `mynetdb` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin ;
 USE `mynetdb`;
 
@@ -136,7 +132,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mynetdb`.`timeT`
 -- -----------------------------------------------------
-
 CREATE TABLE `timeT` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`service_id` INT NOT NULL,
@@ -147,9 +142,8 @@ CREATE TABLE `timeT` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- -----------------------------------------------------
--- Trigger `mynetdb`.`service`
+-- Trigger `mynetdb`.`service_after_update_status`
 -- -----------------------------------------------------
-
 DELIMITER $$
 CREATE
 	TRIGGER `service_after_update_status` AFTER UPDATE 
@@ -170,7 +164,10 @@ CREATE
        
 		
     END$$
-
+    
+-- -----------------------------------------------------
+-- Trigger `service_after_insert`
+-- -----------------------------------------------------
 CREATE
 	TRIGGER `service_after_insert` AFTER INSERT 
 	ON `service` 
@@ -179,6 +176,9 @@ CREATE
 		
     END$$
     
+-- -----------------------------------------------------
+-- Trigger `user_before_apdate_cash`
+-- -----------------------------------------------------
 CREATE
 	TRIGGER `user_before_apdate_cash` BEFORE UPDATE
     ON `user` 
@@ -191,16 +191,8 @@ CREATE
 			UPDATE service SET service.status_id=1 WHERE service.user_id=NEW.id;
 		END IF;
    
-END$$
-    
+END$$    
 DELIMITER ;
-
-
-
-
-
-
-
 
 INSERT INTO role (id, name) VALUES(DEFAULT, "admin");
 INSERT INTO role (id, name) VALUES(DEFAULT, "customer");
@@ -236,8 +228,6 @@ INSERT INTO product (id, category_id, name, price, description) VALUES(DEFAULT, 
 INSERT INTO product (id, category_id, name, price, description) VALUES(DEFAULT, (SELECT id FROM category WHERE name = @text), "All World", 30.00, DEFAULT);
 
 SET @s_id = 1;
-
-
 SET @p_id = 2;
 INSERT INTO service (user_id, product_id, category_id, status_id) VALUES(2, @p_id, (SELECT category_id FROM product WHERE @p_id = id), (SELECT id FROM status WHERE id = @s_id));
 SET @p_id = 5;

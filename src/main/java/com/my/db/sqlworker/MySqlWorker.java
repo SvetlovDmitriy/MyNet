@@ -72,6 +72,56 @@ public class MySqlWorker extends Worker {
     }
 
     @Override
+    public List<User> selectAllUserLimit(Connection con, int offset, int limit) throws SQLException {
+        List<User> userL = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = con.prepareStatement(SELECT_ALL_USER_LIMIT);
+            int k = 1;
+            pstmt.setInt(k++, limit);
+            pstmt.setInt(k++, offset);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt(ID));
+                user.setLogin(rs.getString(LOGIN));
+                user.setRole(rs.getInt(ROLE_ID));
+                user.setCash(rs.getDouble(CASH));
+                userL.add(user);
+            }
+        } catch (SQLException ex){
+            log.error(EXCEPTION, "Can't find user. Method findAllUsers()", ex);
+            throw new SQLException(ex);
+        }
+        finally {
+            close(rs, pstmt);
+        }
+        return userL;
+    }
+
+    @Override
+    public int selectAllUserCount(Connection con) throws SQLException {
+        PreparedStatement pstmt = null;
+        int totalU = 0;
+        ResultSet rs = null;
+        try {
+            pstmt = con.prepareStatement(SELECT_TOTAL_USER);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                totalU = rs.getInt(TOTAL);
+            }
+        } catch (SQLException ex){
+            log.error(EXCEPTION, "Don't select user in method selectAllUserCount", ex);
+            throw new SQLException(ex);
+        }
+        finally {
+            close(rs, pstmt);
+        }
+        return totalU;
+    }
+
+    @Override
     public User selectUser(Connection con, int id) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;

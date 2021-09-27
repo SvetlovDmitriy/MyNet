@@ -9,9 +9,12 @@ public class User implements Serializable {
     private transient String password;
     private double cash;
 
-    public User(String login, String password) {
+    public User(int id, int roleId, String login, String password, double cash) {
+        this.id = id;
+        this.roleId = roleId;
         this.login = login;
         this.password = password;
+        this.cash = cash;
     }
 
     public User(){};

@@ -12,6 +12,14 @@ public class Service implements Serializable {
     public Service() {
     }
 
+    public Service(int id, int userId, int productId, int categoryId, int statusId) {
+        this.id = id;
+        this.userId = userId;
+        this.productId = productId;
+        this.categoryId = categoryId;
+        this.statusId = statusId;
+    }
+
     public int getId() {
         return id;
     }

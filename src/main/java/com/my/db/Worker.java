@@ -36,9 +36,7 @@ public abstract class Worker {
     public abstract User selectUser(Connection con, int id) throws SQLException;
     public abstract List<User> selectAllUser(Connection con) throws SQLException;
     public abstract List<Service> selectService(Connection con, User user) throws SQLException;
-
     public abstract Service selectService(Connection con, int id) throws SQLException;
-
     public abstract List<ViewService> getServiceAsView(Connection con, List<Service> serviceL) throws SQLException;
     public abstract Category selectCategory(Connection con, int id) throws SQLException;
     public abstract Product selectProduct(Connection con, int id) throws SQLException;
@@ -58,4 +56,6 @@ public abstract class Worker {
     public abstract List<Service> selectAllService(Connection con) throws SQLException;
     public abstract TimeT selectTimeT(Connection con, int serviceId) throws SQLException;
     public abstract void updateTimeT(Connection con, TimeT timeT) throws SQLException;
+    public abstract List<User> selectAllUserLimit(Connection con, int offset, int limit) throws SQLException;
+    public abstract int selectAllUserCount(Connection con) throws SQLException;
 }

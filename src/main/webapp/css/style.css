@@ -43,7 +43,23 @@ td {
     padding-left: 30px;
 }
 
-.topic { font-size: 15px; text-decoration: none; }
+.topic{
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.topicT{
+    font-size: 15px;
+    text-decoration: none;
+    color: #6e9cc3;
+}
+.topic1{
+    font-size: 15px;
+    text-decoration: none;
+    padding: 8px 16px;
+    float: left;
+    transition: background-color .3s;
+}
 
 .leftCentre{
     display: flex;
@@ -51,4 +67,17 @@ td {
     padding: 10px 10px 10px;
     }
 
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+.pagination a.active {
+    background-color: dodgerblue;
+    color: white;
+}
+.pagination a:hover:not(.active) {background-color: #ddd;}
 
