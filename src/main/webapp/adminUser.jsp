@@ -6,6 +6,8 @@
 <fmt:setBundle basename="prop"/>
 <fmt:message key="button.select" var="bSelect"/>
 <fmt:message key="button.login" var="bLogin"/>
+<fmt:message key="money" var="money"/>
+<fmt:message key="toAdminPage" var="toAdminPage"/>
 <html>
 <head>
     <title>Admin-User</title>
@@ -18,7 +20,7 @@
         <h1>MyNet</h1>
     </div>
     <div class="body-centre">
-        <a href="adminPage.jsp" class="topic">To Admin Page</a>
+        <a href="adminPage.jsp" class="topic">${toAdminPage}</a>
     </div>
     <form class = "header-right" action="lang" method="get" id="f1"></form>
     <select name="lang" form="f1">
@@ -30,7 +32,7 @@
 </header>
 
     <h1>${sessionScope.user.login}</h1>
-    <p>Cash ${sessionScope.userCash}</p>
+    <p>${money} ${sessionScope.userCash}</p>
 
     <table>
         <caption>Services</caption>

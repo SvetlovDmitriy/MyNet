@@ -37,7 +37,6 @@ public class FindAllProduct extends HttpServlet {
             DBManager dbManager = DBManager.getDbManager();
             List<Product> productL = dbManager.findAllProduct(categoryId);
             req.getSession().setAttribute("productL", productL);
-            System.out.println(productL);
             req.getSession().setAttribute("productL", productL);
             if ("admin".equals(session.getAttribute("role"))){
                 resp.sendRedirect("adminProduct.jsp");

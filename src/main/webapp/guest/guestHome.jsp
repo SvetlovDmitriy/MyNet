@@ -7,13 +7,14 @@
 <fmt:message key="button.select" var="bSelect"/>
 <fmt:message key="messages.usernotexist" var="mesShow"/>
 <fmt:message key="button.login" var="bLogin"/>
+<fmt:message key="hiGuest" var="hiGuest"/>
+<fmt:message key="download" var="download"/>
 <c:set var="app" value="${pageContext.servletContext.contextPath}" scope="application"/>
 
 <html>
 <head>
     <title>Guest</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
-    <script src="../JS/test.js"></script>
 </head>
 <body>
 <header class="header">
@@ -30,9 +31,10 @@
     </label>
     <input type="submit" value="${bSelect}" form="f1">
 </header>
-<p>Hi guest</p>
+<p>${hiGuest}</p>
 <form action="${app}/download">
-    Download price list
+    ${download}
+    <input type="hidden" name="download" value="priceList"/>
     <input type="submit" value="${bSelect}">
 </form>
 </body>

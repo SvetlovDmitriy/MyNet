@@ -7,6 +7,12 @@
 <fmt:message key="button.select" var="bSelect"/>
 <fmt:message key="button.login" var="bLogin"/>
 <fmt:message key="button.execute" var="execute"/>
+<fmt:message key="toUserPage" var="toUserPage"/>
+<fmt:message key="categoryC" var="categoryC"/>
+<fmt:message key="categoryIDC" var="categoryIDC"/>
+<fmt:message key="categoryNameC" var="categoryNameC"/>
+
+
 <html>
 <head>
     <title>Admin-User</title>
@@ -19,7 +25,7 @@
         <h1>MyNet</h1>
     </div>
     <div class="body-centre">
-        <a href="userPage.jsp" class="topic">To User Page</a>
+        <a href="userPage.jsp" class="topic">${toUserPage}</a>
     </div>
     <form class = "header-right" action="lang" method="get" id="f1"></form>
     <select name="lang" form="f1">
@@ -29,13 +35,12 @@
     </select>
     <input type="submit" value="${bSelect}" form="f1"/>
 </header>
-<h1>Category</h1>
+<h1>${categoryC}</h1>
 <table>
-    <caption>Services</caption>
     <thead>
     <tr>
-        <th scope="col">Service ID</th>
-        <th scope="col">Service Category</th>
+        <th scope="col">${categoryIDC}</th>
+        <th scope="col">${categoryNameC}</th>
     </tr>
     </thead>
     <c:forEach items="${sessionScope.categoryL}" var="category">

@@ -9,12 +9,13 @@ public class PageRedirectSecurityFilter implements Filter {
     private final String startPath = "/start.jsp";
     private final String cssPath = "/css/style.css";
     private final String errorPage = "/errorPage.jsp";
-    private final String blankPage = "/blankPage.gsp";
+    private final String blankPage = "/blankPage.jsp";
     private final String adminNotAccess = "/userPage /deleteService /addService /addMoney userPage.jsp " +
             "/userCategory.jsp" + "/userPage.jsp /userProduct.jsp";
     private final String userNotAcces = "/addCategory /addProduct /deleteCategory /deleteProduct /findAllUser " +
             "/updateProduct /insertuser /adminCategory.jsp /adminPage.jsp /adminProduct.jsp /showExistUser.jsp";
-    private final String guestAccess = "/guest/guestHome.jsp /download /errorPage.jsp /blankPage.jsp /login";
+    private final String guestAccess = "/guest/guestHome.jsp /download /errorPage.jsp /blankPage.jsp /login " +
+            "/lang";
 
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
@@ -47,5 +48,4 @@ public class PageRedirectSecurityFilter implements Filter {
                 (uri.equals(contextPath + cssPath) || (uri.equals(contextPath + blankPage)) ||
                 uri.equals(contextPath + errorPage));
     }
-
 }

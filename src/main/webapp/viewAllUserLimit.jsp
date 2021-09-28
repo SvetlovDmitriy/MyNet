@@ -8,6 +8,10 @@
 <fmt:message key="button.select" var="bSelect"/>
 <fmt:message key="messages.usernotexist" var="mesShow"/>
 <fmt:message key="button.login" var="bLogin"/>
+<fmt:message key="toAdminPage" var="toAdminPage"/>
+<fmt:message key="by" var="by"/>
+<fmt:message key="previous" var="previous"/>
+<fmt:message key="next" var="next"/>
 
 <html>
 <head>
@@ -21,7 +25,7 @@
         <h1>MyNet</h1>
     </div>
     <div class="body-centre">
-        <a href="adminPage.jsp" class="topic">To Admin Page</a>
+        <a href="adminPage.jsp" class="topic">${toAdminPage}</a>
     </div>
     <form class="header-right" action="lang" method="get" id="f1"></form>
     <label>
@@ -35,15 +39,14 @@
 </header>
 <h1><fmt:message key="viewalluser"/></h1>
 <div class="pagination">
-    <a href="findAllUserLimit?recordsPerPage=2">--по 2</a>
-    <a href="findAllUserLimit?recordsPerPage=3">-- по 3</a>
+    <a href="findAllUserLimit?recordsPerPage=2">${by} 2</a>
+    <a href="findAllUserLimit?recordsPerPage=3">${by} 3</a>
 </div>
 <br><br>
 <mytag:viewUser userL="${sessionScope.userL}"/>
-
 <div class="pagination">
 <c:if test="${sessionScope.currentPage != 1}">
-    <a href="findAllUserLimit?page=${sessionScope.currentPage - 1}">Previous</a>
+    <a href="findAllUserLimit?page=${sessionScope.currentPage - 1}">${previous}</a>
 </c:if>
 
     <c:forEach begin="1" end="${sessionScope.noOfPages}" var="i">
@@ -58,7 +61,7 @@
     </c:forEach>
 
 <c:if test="${sessionScope.currentPage lt sessionScope.noOfPages}">
-    <a href="findAllUserLimit?page=${sessionScope.currentPage + 1}">Next</a>
+    <a href="findAllUserLimit?page=${sessionScope.currentPage + 1}">${next}</a>
 </c:if>
 </div>
 

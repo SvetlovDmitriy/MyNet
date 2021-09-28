@@ -6,7 +6,6 @@
 <fmt:setBundle basename="prop"/>
 <fmt:message key="button.select" var="bSelect"/>
 <fmt:message key="button.login" var="bLogin"/>
-<fmt:message key="${content}" var="mesShow"/>
 <html>
 <head>
     <title>Messages</title>
@@ -18,7 +17,7 @@
     <div class="header-left">
         <h1>MyNet</h1>
     </div>
-    <form class = "header-right" action="lang" method="get" id="f1"></form>
+    <form class="header-right" action="lang" method="get" id="f1"></form>
     <select name="lang" form="f1">
         <option>${sessionScope.lang}</option>
         <option value="en">en</option>
@@ -29,7 +28,6 @@
 <div class="body-centre">
     <p><fmt:message key="${content}"/></p>
 </div>
-
 </body>
 </html>
 

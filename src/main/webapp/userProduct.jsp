@@ -7,6 +7,16 @@
 <fmt:message key="button.select" var="bSelect"/>
 <fmt:message key="button.login" var="bLogin"/>
 <fmt:message key="button.execute" var="execute"/>
+<fmt:message key="sortName" var="sortName"/>
+<fmt:message key="sortNameRev" var="sortNameRev"/>
+<fmt:message key="sortPrice" var="sortPrice"/>
+<fmt:message key="sortPriceRev" var="sortPriceRev"/>
+<fmt:message key="nameP" var="nameP"/>
+<fmt:message key="priceP" var="priceP"/>
+<fmt:message key="descP" var="descP"/>
+<fmt:message key="IdP" var="IdP"/>
+<fmt:message key="addServiceU" var="addServiceU"/>
+<fmt:message key="add" var="add"/>
 <html>
 <head>
     <title>User Ptoduct</title>
@@ -33,30 +43,29 @@
 <div class="leftCentre">
     <form class="leftCentre" action="sortService" name="sortN" method="get">
         <input type="hidden" name="sortTyp" value="name"/>
-        <input type="submit" value="sort by name"/>
+        <input type="submit" value="${sortName}"/>
     </form>
     <form class="leftCentre" action="sortService" name="sortN" method="get">
         <input type="hidden" name="sortTyp" value="nameRevers"/>
-        <input type="submit" value="sort by name revers order"/>
+        <input type="submit" value="${sortNameRev}"/>
     </form>
     <form class="leftCentre" action="sortService" name="sortN" method="get">
         <input type="hidden" name="sortTyp" value="price"/>
-        <input type="submit" value="sort by price"/>
+        <input type="submit" value="${sortPrice}"/>
     </form>
     <form class="leftCentre" action="sortService" name="sortN" method="get">
         <input type="hidden" name="sortTyp" value="priceRevers"/>
-        <input type="submit" value="sort by price revers order" />
+        <input type="submit" value="${sortPriceRev}" />
     </form>
 </div>
 <table>
-    <caption>Services</caption>
     <thead>
     <tr>
-        <th scope="col">Service id</th>
-        <th scope="col">Service name</th>
-        <th scope="col">Service description</th>
-        <th scope="col">Service price</th>
-        <th scope="col">Add service</th>
+        <th scope="col">${IdP}</th>
+        <th scope="col">${nameP}</th>
+        <th scope="col">${descP}</th>
+        <th scope="col">${priceP}</th>
+        <th scope="col">${addServiceU}</th>
     </tr>
     </thead>
     <c:forEach items="${sessionScope.productL}" var="products">
@@ -67,7 +76,7 @@
             <td>${products.price}</td>
             <td>
                 <a href="addService?idp=${products.id}&namep=${products.name}" methods="post">
-                    Add</a>
+                    ${add}</a>
             </td>
         </tr>
     </c:forEach>

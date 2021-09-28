@@ -9,6 +9,11 @@
 <fmt:message key="button.login" var="bLogin"/>
 <fmt:message key="showAllUser" var="showAllUser"/>
 <fmt:message key="button.execute" var="execute"/>
+<fmt:message key="existService" var="existService"/>
+
+<fmt:message key="serviceIdC" var="serviceIdC"/>
+<fmt:message key="serviceNameC" var="serviceNameC"/>
+
 
 <html>
 <head>
@@ -31,13 +36,12 @@
     </label>
     <input type="submit" value="${bSelect}" form="f1">
 </header>
-<h1>Exist scervice</h1><br><hr>
+<h1>${existService}</h1><br><hr>
 <table>
-    <caption>Services</caption>
     <thead>
     <tr>
-        <th scope="col">Service id</th>
-        <th scope="col">Service name</th>
+        <th scope="col">${serviceIdC}</th>
+        <th scope="col">${serviceNameC}</th>
     </tr>
     </thead>
     <c:forEach items="${productL}" var="product">

@@ -5,7 +5,6 @@
 <fmt:setLocale value="${sessionScope.lang}" />
 <fmt:setBundle basename="prop"/>
 <fmt:message key="button.select" var="bSelect"/>
-<fmt:message key="${content}" var="mesShow"/>
 <fmt:message key="button.login" var="bLogin"/>
 
 <html>
@@ -29,6 +28,8 @@
     </label>
     <input type="submit" value="${bSelect}" form="f1">
 </header>
-<p>${mesShow}</p>
+<div class="body-centre">
+    <p><fmt:message key="${content}"/></p>
+</div>
 </body>
 </html>

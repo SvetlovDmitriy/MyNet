@@ -29,7 +29,6 @@ public class SelectUser extends HttpServlet {
         HttpSession session = req.getSession();
         List<Service> serviceL;
         String loggin = req.getParameter("login");
-        System.out.println(loggin);
         try {
             DBManager dbManager = DBManager.getDbManager();
             User user = dbManager.getUser(loggin);

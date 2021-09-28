@@ -1,4 +1,4 @@
-package com.my.web.utilit;
+package com.my.utilit;
 
 import com.my.db.entity.Product;
 import com.my.db.entity.Service;

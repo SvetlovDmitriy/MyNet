@@ -45,10 +45,8 @@ public class FindAllUserLimit extends HttpServlet {
         try {
             DBManager dbManager = DBManager.getDbManager();
             List<User> userL = dbManager.findAllUserLimit((page - 1) * recordsPerPage, recordsPerPage);
-            System.out.println("userL = " + userL);
             int noOfRecords = dbManager.getTotalUser();
             int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-            System.out.println("total user = " + noOfRecords);
             session.setAttribute("userL", userL);
             session.setAttribute("noOfPages", noOfPages);
             session.setAttribute("currentPage", page);

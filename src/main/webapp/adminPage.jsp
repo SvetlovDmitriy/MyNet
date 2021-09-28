@@ -9,7 +9,13 @@
 <fmt:message key="button.login" var="bLogin"/>
 <fmt:message key="showAllUser" var="showAllUser"/>
 <fmt:message key="button.execute" var="execute"/>
-
+<fmt:message key="adminPage" var="adminPage"/>
+<fmt:message key="adminAddUser" var="adminAddUser"/>
+<fmt:message key="selectUser" var="selectUser"/>
+<fmt:message key="showAllCategory" var="showAllCategory"/>
+<fmt:message key="createPriceList" var="createPriceList"/>
+<fmt:message key="downloadLogInfo" var="downloadLogInfo"/>
+<fmt:message key="downloadLogErr" var="downloadLogErr"/>
 <html>
 <head>
     <title>Admin page</title>
@@ -31,35 +37,49 @@
     </label>
     <input type="submit" value="${bSelect}" form="f1">
 </header>
-<h1>Admin page</h1><br>
+<h1>${adminPage}</h1><br>
 <hr>
 <div class="body-centre">
-
-    <form name="allUser" action="findAllUserLimit" method="get">
-        ----Find all User<br>
-        <input type="submit" value="${showAllUser}">
-    </form>
-
-    <form name="auth" action="insertuser" method="post" onsubmit="return validateForm()">
-        ----Add user by login<br>
-        <input name="login" required><br>
+    <form class="body-centre" name="allUser" action="findAllUserLimit" method="get">
+        ${showAllUser}<br>
         <input type="submit" value="${execute}">
     </form>
-
-    <form name="auth1" action="selectuser" method="get">
-        ----Select user by login<br>
-        <input name="login" required><br>
-        <input type="submit" value="${execute}">
-    </form>
-    <form name="allProduct" action="findAllCategory" method="get">
-        ----Find all Category<br>
-        <input type="submit" value="findAllCategory">
-    </form>
-    <form name="createPriceList" action="createPriceList" method="get">
-        ----Create a price list<br>
-        <input type="submit" value="createPriceList">
-    </form>
+    <div class="body-centre">
+        <form name="auth" action="insertuser" method="post" onsubmit="return validateForm()">
+            ${adminAddUser}<br>
+            <input name="login" required><br>
+            <input class="body-centreForm" type="submit" value="${execute}">
+        </form>
+    </div>
+    <div class="body-centre">
+        <form name="auth1" action="selectuser" method="get">
+            ${selectUser}<br>
+            <input class="body-centreForm" name="login" required>
+            <input class="body-centreForm" type="submit" value="${execute}">
+        </form>
+    </div>
+    <div class="body-centre">
+        <form name="allProduct" action="findAllCategory" method="get">
+            ${showAllCategory}<br>
+            <input class="body-centreForm" type="submit" value="${execute}">
+        </form>
+    </div>
+    <div class="body-centre">
+        <form name="createPriceList" action="createPriceList" method="get">
+            ${createPriceList}<br>
+            <input class="body-centreForm" type="submit" value="${execute}">
+        </form>
+    </div>
+    <div class="leftCentreAdmin">
+        <form class="leftCentreAdmin" action="download">
+            <input type="hidden" name="download" value="logInfo"/>
+            <input type="submit" value="${downloadLogInfo}">
+        </form>
+        <form class="leftCentreAdmin" action="download">
+            <input type="hidden" name="download" value="logErr"/>
+            <input type="submit" value="${downloadLogErr}">
+        </form>
+    </div>
 </div>
-
 </body>
 </html>

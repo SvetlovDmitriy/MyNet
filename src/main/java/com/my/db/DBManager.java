@@ -1,8 +1,7 @@
 package com.my.db;
 
 import com.my.db.entity.*;
-import com.my.db.sqlworker.MySqlWorker;
-import com.my.web.utilit.CalculationOfPayments;
+import com.my.utilit.CalculationOfPayments;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.naming.Context;

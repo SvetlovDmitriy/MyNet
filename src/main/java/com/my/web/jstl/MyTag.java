@@ -16,7 +16,7 @@ public class MyTag extends TagSupport {
 
     public int doStartTag() throws JspTagException{
         try {
-            pageContext.getOut().write("<table><caption>Users List</caption>\n" +
+            pageContext.getOut().write("<table>\n" +
                     "    <thead>\n" +
                     "    <tr>\n" +
                     "        <th scope=\"col\">User id</th>\n" +

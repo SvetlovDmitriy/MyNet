@@ -32,7 +32,16 @@ td {
     flex-direction: column;
     align-content: center;
     align-items: center;
-    margin: 10px 0 0;
+    margin: 15px 0 0;
+    justify-content: center;
+}
+.body-centreForm{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    margin: 0 0 0;
     justify-content: center;
 }
 .header-right{
@@ -49,9 +58,10 @@ td {
 }
 
 .topicT{
-    font-size: 15px;
+    font-size: 20px;
     text-decoration: none;
     color: #6e9cc3;
+    text-align: center;
 }
 .topic1{
     font-size: 15px;
@@ -60,12 +70,23 @@ td {
     float: left;
     transition: background-color .3s;
 }
+.leftCentreAdmin{
+    display: flex;
+    flex-direction: row;
+    padding: 10px 10px 10px;
+}
 
 .leftCentre{
     display: flex;
     flex-direction: row;
     padding: 10px 10px 10px;
     }
+
+.leftCentre-1{
+    display: flex;
+    flex-direction: row;
+    padding: 10px 30px 10px;
+}
 
 .pagination a {
     color: black;

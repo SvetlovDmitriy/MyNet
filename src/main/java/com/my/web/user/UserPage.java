@@ -34,7 +34,6 @@ public class UserPage extends HttpServlet {
         HttpSession session = req.getSession();
         List<Service> serviceL;
         String login = (String)session.getAttribute("login");
-        System.out.println(login);
         try {
             DBManager dbManager = DBManager.getDbManager();
             User user = dbManager.getUser(login);

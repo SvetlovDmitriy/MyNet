@@ -7,6 +7,19 @@
 <fmt:message key="button.select" var="bSelect"/>
 <fmt:message key="button.login" var="bLogin"/>
 <fmt:message key="button.execute" var="execute"/>
+<fmt:message key="money" var="money"/>
+<fmt:message key="toUserPage" var="toUserPage"/>
+<fmt:message key="showAllCategory" var="showAllCategory"/>
+<fmt:message key="putMoney" var="putMoney"/>
+<fmt:message key="categoryNameC" var="categoryNameC"/>
+<fmt:message key="IdP" var="IdP"/>
+<fmt:message key="nameP" var="nameP"/>
+<fmt:message key="descP" var="descP"/>
+<fmt:message key="priceP" var="priceP"/>
+<fmt:message key="statusS" var="statusS"/>
+<fmt:message key="deleteP" var="deleteP"/>
+
+
 <html>
 <head>
     <title>User</title>
@@ -19,7 +32,7 @@
         <h1>MyNet</h1>
     </div>
     <div class="body-centre">
-        <a href="userPage" class="topic">To User Page</a>
+        <a href="userPage" class="topic">${toUserPage}</a>
     </div>
     <form class = "header-right" action="lang" method="get" id="f1"></form>
     <select name="lang" form="f1">
@@ -31,18 +44,18 @@
 </header>
 
 <h1>${sessionScope.user.login}</h1>
-<p>Cash ${sessionScope.userCash}</p>
+<p>${money} ${sessionScope.userCash}</p>
 <div class="leftCentre">
     <div class="leftCentre">
         <form name="allProduct" action="findAllCategory" method="get">
-             Find all Category<br>
-            <input type="submit" value="findAllCategory">
+             ${showAllCategory}<br>
+            <input type="submit" value="${execute}">
         </form>
     </div>
 
     <div class="leftCentre">
         <form name="allProduct" action="addMoney" method="post">
-             Put monet<br>
+             ${putMoney}<br>
             <label>
                 <input type="number" name="cash" step="any" min="0" required>
             </label><br>
@@ -52,16 +65,15 @@
 </div>
 
 <table>
-    <caption>Services</caption>
     <thead>
     <tr>
-        <th scope="col">Service category</th>
-        <th scope="col">Service id</th>
-        <th scope="col">Service name</th>
-        <th scope="col">Service description</th>
-        <th scope="col">Service price</th>
-        <th scope="col">Status</th>
-        <th scope="col">Delete service</th>
+        <th scope="col">${categoryNameC}</th>
+        <th scope="col">${IdP}</th>
+        <th scope="col">${nameP}</th>
+        <th scope="col">${descP}</th>
+        <th scope="col">${priceP}</th>
+        <th scope="col">${statusS}</th>
+        <th scope="col">${deleteP}</th>
     </tr>
     </thead>
     <c:forEach items="${sessionScope.userService}" var="userS">

@@ -19,14 +19,9 @@ public class SortService extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        System.out.println("sort Service start");
         String sortTyp = req.getParameter("sortTyp");
-        System.out.println(req.getParameter("name"));
-        System.out.println("Strig request => " + req.getQueryString());
-        System.out.println("Parametr of sort => " + sortTyp);
         HttpSession session = req.getSession();
         List<Product> productL = (List<Product>) session.getAttribute("productL");
-        System.out.println("List product => " + productL);
         if ("price".equals(sortTyp)){
             Sorter.sortByPrice(productL);
         } else if ("priceRevers".equals(sortTyp)){

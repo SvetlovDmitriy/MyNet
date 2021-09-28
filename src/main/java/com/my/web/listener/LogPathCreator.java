@@ -10,7 +10,6 @@ public class LogPathCreator implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("LogPathCreator");
         ServletContext ctx = sce.getServletContext();
         String path = ctx.getRealPath("/WEB-INF/logInfo.log");
         System.setProperty("logInfo", path);
